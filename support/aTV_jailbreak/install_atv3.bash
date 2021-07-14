@@ -9,7 +9,7 @@ cd ../..
 PlexConnectPath=${PWD}
 
 ## check SSL certificate
-file="${PlexConnectPath}/assets/certificates/vevo.pem"
+file="${PlexConnectPath}/assets/certificates/trailers.pem"
 if [ -f "$file" ]; then
     echo 'SSL certificate '$file' found.' 
 
