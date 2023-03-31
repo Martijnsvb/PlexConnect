@@ -295,7 +295,7 @@ def discoverPMS(ATV_udid, CSettings, IP_self, tokenDict={}):
         updatePMSProperty(ATV_udid, uuid, 'enableGzip', enableGzip)
     
     # debug print all servers
-    dprint(__name__, 0, "Plex Media Servers found: {0}", len(g_PMS[ATV_udid])-1)
+    dprint(__name__, 0, "ATV ["+ATV_udid+"] Plex Media Servers found: {0}", len(g_PMS[ATV_udid])-1)
     for uuid in g_PMS[ATV_udid]:
         dprint(__name__, 1, str(g_PMS[ATV_udid][uuid]))
 
@@ -310,7 +310,7 @@ poke every PMS at every given address (plex.tv tends to cache a LOT...)
 """
 def getPMSListFromMyPlex(ATV_udid, authtoken):
     dprint(__name__, 0, "***")
-    dprint(__name__, 0, "poke plex.tv - request Plex Media Server list")
+    dprint(__name__, 0, "ATV ["+ATV_udid+"] poke for plex.tv - request Plex Media Server list")
     dprint(__name__, 0, "***")
     
     XML = getXMLFromPMS('https://plex.tv', '/api/resources?includeHttps=1', {}, authtoken)
@@ -725,13 +725,13 @@ def MyPlexSignIn(username, password, options):
 def MyPlexSignOut(authtoken):
     # MyPlex web address
     MyPlexHost = 'plex.tv'
-    MyPlexSignOutPath = '/users/sign_out.xml'
+    MyPlexSignOutPath = '/api/v2/users/signout'
     MyPlexURL = 'http://' + MyPlexHost + MyPlexSignOutPath
     
     # create POST request
     xargs = { 'X-Plex-Token': authtoken }
     request = urllib2.Request(MyPlexURL, None, xargs)
-    request.get_method = lambda: 'POST'  # turn into 'POST' - done automatically with data!=None. But we don't have data.
+    request.get_method = lambda: 'DELETE'  # turn into 'DELETE' - done automatically with data!=None. But we don't have data.
     
     response = urllib2.urlopen(request).read()
     
